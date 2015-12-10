@@ -8,7 +8,7 @@ public final class DatabaseConfiguration {
 	/**
 	 * Default database configuration.
 	 */
-	public static final DatabaseConfiguration DEFAULT = new DatabaseConfiguration("dilbert.humber.ca", 1521, "AUTHOR", "n01057566", "oracle");
+	public static final DatabaseConfiguration DEFAULT = new DatabaseConfiguration("dilbert.humber.ca", 1521, "AUTHOR", "N00456617", "oracle");
 
 	/**
 	 * The database server host
