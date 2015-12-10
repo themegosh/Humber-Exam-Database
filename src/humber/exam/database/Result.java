@@ -1,4 +1,4 @@
-package com.database.config;
+package humber.exam.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

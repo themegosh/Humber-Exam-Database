@@ -1,4 +1,4 @@
-package com.database.config;
+package humber.exam.database;
 
 /**
  * Created by Jonathan on 10/5/2015.

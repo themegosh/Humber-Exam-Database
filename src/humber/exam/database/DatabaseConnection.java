@@ -1,4 +1,4 @@
-package com.database.config;
+package humber.exam.database;
 
 import java.sql.*;
 
@@ -315,8 +315,8 @@ public final class DatabaseConnection {
 		return execute(query);
 	}
 
-	public boolean hasExam(String courseCode, String roomNumber, String periodId, String day_of_week, Timestamp start_time, Timestamp end_time) {
-		String query = "SELECT * FROM EXAM WHERE COURSE_CODE = " + quo(courseCode) + " AND ROOM_NUM = " + quo(roomNumber) + " AND PERIOD_ID = " + periodId + " AND DAY_OF_WEEK = " + quo(day_of_week) + "  AND END_TIME = " + toDate(end_time) + " AND START_TIME = " + toDate(start_time);
+	public boolean hasExam(String courseCode, String roomNumber, String day_of_week, Timestamp start_time, Timestamp end_time) {
+		String query = "SELECT * FROM EXAM WHERE COURSE_CODE = " + quo(courseCode) + " AND ROOM_NUM = " + quo(roomNumber) + " AND DAY_OF_WEEK = " + quo(day_of_week) + "  AND END_TIME = " + toDate(end_time) + " AND START_TIME = " + toDate(start_time);
 		try {
 			return execute(query).set().isBeforeFirst();
 		} catch (Throwable e) {
@@ -325,17 +325,17 @@ public final class DatabaseConnection {
 		return false;
 	}
 
-	public boolean addExam(String courseCode, String roomNumber, String periodId, String day_of_week, Timestamp start_time, Timestamp end_time) {
-		if (hasExam(courseCode, roomNumber, periodId, day_of_week, start_time, end_time)) {
+	public boolean addExam(String courseCode, String roomNumber, String day_of_week, Timestamp start_time, Timestamp end_time) {
+		if (hasExam(courseCode, roomNumber, day_of_week, start_time, end_time)) {
 			System.err.println("There is already an exam in that room!");
 			return false;
 		}
-		String query = String.format("INSERT INTO EXAM VALUES (%s, %s, %s, %s, %s, %s)", quo(courseCode), quo(roomNumber), quo(periodId), quo(day_of_week), toDate(start_time), toDate(end_time));
+		String query = String.format("INSERT INTO EXAM VALUES (%s, %s, %s, %s, %s)", quo(courseCode), quo(roomNumber), quo(day_of_week), toDate(start_time), toDate(end_time));
 		return execute(query) != null;
 	}
 
 	public boolean removeExam(String courseCode, String roomNumber, String periodId, String day_of_week, Timestamp start_time, Timestamp end_time) {
-		if (!hasExam(courseCode, roomNumber, periodId, day_of_week, start_time, end_time)) {
+		if (!hasExam(courseCode, roomNumber, day_of_week, start_time, end_time)) {
 			return false;
 		}
 		String query = "DELETE FROM EXAM WHERE COURSE_CODE = " + quo(courseCode) + " AND ROOM_NUM = " + quo(roomNumber) + " AND PERIOD_ID = " + quo(periodId) + " AND DAY_OF_WEEK = " + quo(day_of_week) + "  AND END_TIME = " + toDate(end_time) + " AND START_TIME = " + toDate(start_time);
