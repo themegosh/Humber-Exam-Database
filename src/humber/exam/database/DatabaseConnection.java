@@ -246,13 +246,8 @@ public final class DatabaseConnection {
 		return execute(query);
 	}
 
-	public Result getTeacher(int teacher_id) {
-		String query = "SELECT * FROM TEACHER WHERE TEACHER_ID = " + teacher_id;
-		return execute(query);
-	}
-
-	public Result getAdminForId(int admin_id) {
-		String query = "SELECT * FROM ADMIN WHERE ID = " + admin_id;
+	public Result getUserById(int user_id) {
+		String query = "SELECT * FROM USER WHERE ID = " + user_id;
 		return execute(query);
 	}
 
@@ -395,9 +390,9 @@ public final class DatabaseConnection {
 		String query = "DELETE FROM ENROLLMENT WHERE STUDENT_ID = " + student_id + " AND PROGRAM_CODE = " + quo(program_code) + " AND SEMESTER = " + quo(semester) + " AND SECTION = " + quo(section);
 		return execute(query) != null;
 	}
-
-	public boolean hasTeacher(int teacher_id) {
-		String query = "SELECT * FROM TEACHER WHERE TEACHER_ID = " + teacher_id;
+        
+	public boolean hasUser(int id) {
+		String query = "SELECT * FROM USERS WHERE ID = " + id;
 		try {
 			return execute(query).set().isBeforeFirst();
 		} catch (Throwable e) {
@@ -405,48 +400,26 @@ public final class DatabaseConnection {
 		}
 		return false;
 	}
-
-	public boolean addTeacher(int teacher_id, String password, String first_name, String last_name) {
-		if (hasTeacher(teacher_id)) {
-			System.err.println("That teacher already exists!");
+        
+	public boolean addUser(int id, String password, String first_name, String last_name, int access) {
+		if (hasUser(id)) {
+			System.err.println("That user already exists!");
 			return false;
 		}
-		String query = String.format("INSERT INTO TEACHER VALUES (%d, %s, %s, %s)", teacher_id, quo(password), quo(first_name), quo(last_name));
+		String query = String.format("INSERT INTO USERS VALUES (%d, %s, %s, %s, %d)", id, quo(password), quo(first_name), quo(last_name), access);
 		return execute(query) != null;
 	}
+        
+        public Result getUser(String user_id, String user_password) {
+            String query = "SELECT * FROM USERS WHERE ID = " + quo(user_id) + " AND PASSWORD = " + quo(user_password);
+            return execute(query);
+        }
 
-	public boolean removeTeacher(int teacher_id) {
-		if (!hasTeacher(teacher_id)) {
+	public boolean removeUser(int id) {
+		if (!hasUser(id)) {
 			return false;
 		}
-		String query = "DELETE FROM TEACHER WHERE TEACHER_ID = " + teacher_id;
-		return execute(query) != null;
-	}
-
-	public boolean hasAdmin(int admin_id) {
-		String query = "SELECT * FROM ADMIN WHERE ADMIN_ID = " + admin_id;
-		try {
-			return execute(query).set().isBeforeFirst();
-		} catch (Throwable e) {
-			// e.printStackTrace();
-		}
-		return false;
-	}
-
-	public boolean addAdmin(int admin_id, String password, String first_name, String last_name) {
-		if (hasAdmin(admin_id)) {
-			System.err.println("That admin already exists!");
-			return false;
-		}
-		String query = String.format("INSERT INTO ADMIN VALUES (%d, %s, %s, %s)", admin_id, quo(password), quo(first_name), quo(last_name));
-		return execute(query) != null;
-	}
-
-	public boolean removeAdmin(int admin_id) {
-		if (!hasAdmin(admin_id)) {
-			return false;
-		}
-		String query = "DELETE FROM ADMIN WHERE ADMIN_ID = " + admin_id;
+		String query = "DELETE FROM USERS WHERE ID = " + id;
 		return execute(query) != null;
 	}
 
@@ -530,8 +503,7 @@ public final class DatabaseConnection {
 		String query = "DELETE FROM PERIOD WHERE PERIOD_ID = " + quo(period_id);
 		return execute(query) != null;
 	}
-
-
+        
 	public String quo(Object s) {
 		return "'" + s + "'";
 	}
