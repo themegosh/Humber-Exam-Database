@@ -247,7 +247,7 @@ public final class DatabaseConnection {
 	}
 
 	public Result getUserById(int user_id) {
-		String query = "SELECT * FROM USER WHERE ID = " + user_id;
+		String query = "SELECT * FROM USERS WHERE ID = " + user_id;
 		return execute(query);
 	}
 
@@ -412,6 +412,11 @@ public final class DatabaseConnection {
         
         public Result getUser(String user_id, String user_password) {
             String query = "SELECT * FROM USERS WHERE ID = " + quo(user_id) + " AND PASSWORD = " + quo(user_password);
+            return execute(query);
+        }
+        
+        public Result getAllUsers() {
+            String query = "SELECT * FROM USERS";
             return execute(query);
         }
 
