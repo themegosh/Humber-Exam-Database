@@ -410,7 +410,7 @@ public final class DatabaseConnection {
 		return execute(query) != null;
 	}
         
-        public Result getUser(String user_id, String user_password) {
+        public Result getUser(int user_id, String user_password) {
             String query = "SELECT * FROM USERS WHERE ID = " + quo(user_id) + " AND PASSWORD = " + quo(user_password);
             return execute(query);
         }
